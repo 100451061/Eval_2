@@ -29,3 +29,6 @@
 2024-10-30 09:52:13,426 - INFO - Usuario 'pablito' autenticado exitosamente.
 2024-10-30 09:55:29,616 - WARNING - Mensaje con ID '12' no es auténtico.
 2024-10-30 09:56:53,198 - INFO - Mensaje con ID '12' verificado como auténtico.
+2024-10-31 12:43:03,440 - WARNING - Intento de autenticación fallido para el usuario 'pablo'.
+2024-10-31 12:43:07,197 - WARNING - Intento de autenticación fallido para el usuario 'pablo'.
+2024-10-31 12:43:14,506 - INFO - Usuario 'pablito' autenticado exitosamente.
