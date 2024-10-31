@@ -1,0 +1,31 @@
+2024-10-30 08:22:44,479 - WARNING - Intento de autenticación fallido para el usuario 'pablo1'.
+2024-10-30 08:22:48,750 - ERROR - Error al registrar usuario 'pablo1': La contraseña debe tener al menos 8 caracteres y contener letras y números.
+2024-10-30 08:22:58,869 - WARNING - Intento de autenticación fallido para el usuario 'pablo1'.
+2024-10-30 08:23:06,702 - WARNING - Intento de autenticación fallido para el usuario 'pablo1'.
+2024-10-30 08:23:41,343 - INFO - Mensaje cifrado y almacenado correctamente.
+2024-10-30 08:24:30,229 - ERROR - Error al descifrar mensaje con ID '10': No se encontró el mensaje cifrado con el ID proporcionado.
+2024-10-30 08:24:35,074 - ERROR - Error al descifrar mensaje con ID '9': No se encontró el mensaje cifrado con el ID proporcionado.
+2024-10-30 08:24:39,900 - WARNING - Mensaje con ID '9' no es auténtico.
+2024-10-30 08:24:45,157 - ERROR - Error al descifrar mensaje con ID '9': No se encontró el mensaje cifrado con el ID proporcionado.
+2024-10-30 08:24:50,984 - ERROR - Error al descifrar mensaje con ID '2': No se encontró el mensaje cifrado con el ID proporcionado.
+2024-10-30 08:25:07,046 - INFO - Mensaje con ID '14' descifrado exitosamente.
+2024-10-30 08:25:14,054 - INFO - Mensaje con ID '12' descifrado exitosamente.
+2024-10-30 08:25:20,767 - INFO - Mensaje con ID '13' descifrado exitosamente.
+2024-10-30 08:27:41,878 - INFO - Usuario 'pablo1' autenticado exitosamente.
+2024-10-30 08:28:27,539 - INFO - Usuario 'pablo' registrado exitosamente.
+2024-10-30 08:28:29,555 - INFO - Usuario 'pablo' autenticado exitosamente.
+2024-10-30 08:28:41,174 - INFO - Mensaje cifrado y almacenado correctamente.
+2024-10-30 08:29:11,249 - INFO - Mensaje con ID '15' descifrado exitosamente.
+2024-10-30 08:29:46,491 - INFO - Mensaje autenticado con HMAC y almacenado correctamente.
+2024-10-30 08:30:12,903 - INFO - Mensaje con ID '11' verificado como auténtico.
+2024-10-30 09:26:52,736 - ERROR - Error al registrar usuario 'pablito': La contraseña debe tener al menos 8 caracteres y contener letras y números.
+2024-10-30 09:27:17,469 - WARNING - Intento de autenticación fallido para el usuario 'pablito'.
+2024-10-30 09:28:18,870 - WARNING - Intento fallido de eliminación de usuario 'pablito' por autenticación fallida.
+2024-10-30 09:29:27,875 - INFO - Usuario 'pablito' registrado exitosamente.
+2024-10-30 09:31:59,318 - INFO - Usuario 'pablito' autenticado exitosamente.
+2024-10-30 09:38:26,967 - INFO - Mensaje cifrado y almacenado correctamente.
+2024-10-30 09:45:18,297 - INFO - Mensaje con ID '16' descifrado exitosamente.
+2024-10-30 09:47:25,558 - INFO - Mensaje autenticado con HMAC y almacenado correctamente.
+2024-10-30 09:52:13,426 - INFO - Usuario 'pablito' autenticado exitosamente.
+2024-10-30 09:55:29,616 - WARNING - Mensaje con ID '12' no es auténtico.
+2024-10-30 09:56:53,198 - INFO - Mensaje con ID '12' verificado como auténtico.
