@@ -105,12 +105,15 @@ def autenticar_usuario(usuario, contrasena):
     row = cursor.fetchone()
     conexion.close()
 
+    # si el campo de usuario esta vacio o con caracteres que no se pueden codificar
     if not row:
         return "Usuario no encontrado"  # Mensaje de error si el usuario no existe en la base de datos.
 
-    salt, stored_pwd_hash = row  # Desempaqueta el salt y el hash almacenado en la base de datos.
+    # si el usuario existe
+    salt, stored_pwd_hash = row  # Desempaquetamos el salt y el hash almacenado en la base de datos.
 
     # Intentar verificar el hash usando la contraseña ingresada
+    # Hacemos
     try:
         kdf = Scrypt(
             salt=salt,

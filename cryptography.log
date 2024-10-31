@@ -44,3 +44,19 @@
 2024-10-31 12:50:40,875 - INFO - Mensaje autenticado con HMAC y almacenado correctamente.
 2024-10-31 12:50:45,882 - INFO - Mensaje con ID '13' verificado como auténtico.
 2024-10-31 12:50:55,999 - INFO - Mensaje con ID '14' verificado como auténtico.
+2024-10-31 15:19:41,724 - INFO - Usuario 'zhiyuan' registrado exitosamente.
+2024-10-31 15:37:56,027 - ERROR - Error al registrar usuario 'anabel': La contraseña debe tener al menos 8 caracteres y contener letras y números.
+2024-10-31 15:38:04,792 - ERROR - Error al registrar usuario 'anabel': La contraseña debe tener al menos 8 caracteres y contener letras y números.
+2024-10-31 15:38:14,244 - INFO - Usuario 'anabel' registrado exitosamente.
+2024-10-31 15:40:52,262 - WARNING - Intento de autenticación fallido para el usuario 'anabel'.
+2024-10-31 15:40:58,582 - WARNING - Intento de autenticación fallido para el usuario 'anabel'.
+2024-10-31 15:41:05,757 - INFO - Usuario 'anabel' autenticado exitosamente.
+2024-10-31 15:43:07,713 - INFO - Mensaje cifrado y almacenado correctamente.
+2024-10-31 16:01:06,388 - INFO - Mensaje con ID '18' descifrado exitosamente.
+2024-10-31 16:01:15,968 - INFO - Mensaje con ID '17' descifrado exitosamente.
+2024-10-31 16:01:22,208 - INFO - Mensaje con ID '12' descifrado exitosamente.
+2024-10-31 16:01:27,077 - INFO - Mensaje con ID '13' descifrado exitosamente.
+2024-10-31 16:01:53,778 - INFO - Mensaje autenticado con HMAC y almacenado correctamente.
+2024-10-31 16:02:49,700 - WARNING - Mensaje con ID '15' no es auténtico.
+2024-10-31 16:02:59,857 - WARNING - Mensaje con ID '15' no es auténtico.
+2024-10-31 16:03:36,411 - INFO - Mensaje con ID '15' verificado como auténtico.
