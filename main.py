@@ -237,5 +237,3 @@ tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=
 
 # Iniciar la aplicación
 root.mainloop()
-
-# geniiial
