@@ -32,3 +32,15 @@
 2024-10-31 12:43:03,440 - WARNING - Intento de autenticación fallido para el usuario 'pablo'.
 2024-10-31 12:43:07,197 - WARNING - Intento de autenticación fallido para el usuario 'pablo'.
 2024-10-31 12:43:14,506 - INFO - Usuario 'pablito' autenticado exitosamente.
+2024-10-31 12:44:59,742 - INFO - Usuario 'pablito' autenticado exitosamente.
+2024-10-31 12:45:15,255 - ERROR - Error al verificar autenticidad del mensaje con ID '': invalid literal for int() with base 10: ''
+2024-10-31 12:45:25,955 - INFO - Mensaje cifrado y almacenado correctamente.
+2024-10-31 12:46:00,812 - INFO - Mensaje con ID '17' descifrado exitosamente.
+2024-10-31 12:46:18,160 - WARNING - Mensaje con ID '12' no es auténtico.
+2024-10-31 12:46:28,644 - INFO - Mensaje con ID '12' verificado como auténtico.
+2024-10-31 12:46:33,789 - WARNING - Mensaje con ID '12' no es auténtico.
+2024-10-31 12:47:03,839 - INFO - Mensaje con ID '17' descifrado exitosamente.
+2024-10-31 12:47:22,179 - INFO - Mensaje autenticado con HMAC y almacenado correctamente.
+2024-10-31 12:50:40,875 - INFO - Mensaje autenticado con HMAC y almacenado correctamente.
+2024-10-31 12:50:45,882 - INFO - Mensaje con ID '13' verificado como auténtico.
+2024-10-31 12:50:55,999 - INFO - Mensaje con ID '14' verificado como auténtico.
