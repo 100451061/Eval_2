@@ -135,8 +135,6 @@ emailAddress			= AC1@SPI.INF.UC3M.ES
 
 [ req_attributes ]
 challengePassword		= A challenge password
-challengePassword_min		= 4
-challengePassword_max		= 20
 
 unstructuredName		= An optional company name
 
