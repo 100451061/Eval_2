@@ -6,6 +6,7 @@ from tkinter import messagebox, Toplevel
 
 from autenticacion_mensajes import almacenar_mensaje, verificar_mensaje
 from cifrado_simetrico import almacenar_datos_cifrados, descifrar_datos
+from firma_digital.generar_verificar_firma_digital import generar_claves, generar_firma, verificar_firma  # Eval 2
 from usuario_autenticacion import registrar_usuario, autenticar_usuario
 
 # Configuración de logging
@@ -220,9 +221,93 @@ def limpiar_mensajes_autenticados():
     messagebox.showinfo("Limpiar Mensajes Autenticados", "Todos los mensajes autenticados han sido eliminados.")
     logging.info("Todos los mensajes autenticados han sido eliminados de la base de datos.")
 
-# Funciones
+
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+
+# Funciones del  Eval 2
+# esta funcion genera las claves
+def generar_claves_gui():
+    """Función para generar claves desde la GUI."""
+    usuario = usuario_var.get()
+    try:
+        generar_claves(usuario)
+        messagebox.showinfo("Claves", f"Claves generadas para el usuario: {usuario}")
+        logging.info(f"Claves generadas para el usuario: {usuario}")
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+        logging.error(f"Error al generar claves para el usuario '{usuario}': {e}")
 
 
+# esta funcion genera la firma
+def firmar_archivo_gui():
+    """Función para firmar un archivo desde la GUI."""
+    usuario = usuario_var.get()
+    archivo = mensaje_var.get()  # Reutilizamos el campo de mensaje para la ruta del archivo
+    try:
+        generar_firma(usuario, archivo)
+        messagebox.showinfo("Firma", f"Firma generada para el archivo: {archivo}")
+        logging.info(f"Firma generada para el archivo: {archivo}")
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+        logging.error(f"Error al firmar el archivo '{archivo}': {e}")
+
+
+# esta funcion verifica la firma
+def verificar_firma_gui():
+    """Función para verificar la firma de un archivo desde la GUI."""
+    usuario = usuario_var.get()
+    archivo = mensaje_var.get()  # Reutilizamos el campo de mensaje para la ruta del archivo
+    try:
+        resultado = verificar_firma(usuario, archivo)
+        if resultado:
+            messagebox.showinfo("Verificación", f"Firma válida para el archivo: {archivo}")
+            logging.info(f"Firma válida para el archivo: {archivo}")
+        else:
+            messagebox.showwarning("Verificación", f"Firma inválida para el archivo: {archivo}")
+            logging.warning(f"Firma inválida para el archivo: {archivo}")
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
+        logging.error(f"Error al verificar la firma del archivo '{archivo}': {e}")
+
+
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+##########################################
+
+
+# Modificar la ventana de mensajes para incluir estas nuevas funcionalidades
+def abrir_ventana_mensajes():
+    ventana_mensajes = Toplevel(root)
+    ventana_mensajes.title("Sistema de Seguridad del Hospital - Gestión de Firmas Digitales")
+    ventana_mensajes.geometry("400x600")
+    ventana_mensajes.configure(bg="#f0f4f8")
+
+    # Campo para seleccionar archivo y usuario
+    tk.Label(ventana_mensajes, text="Usuario", bg="#f0f4f8", font=("Arial", 12)).pack(pady=10)
+    tk.Entry(ventana_mensajes, textvariable=usuario_var, width=40).pack(pady=5)
+
+    tk.Label(ventana_mensajes, text="Ruta del archivo", bg="#f0f4f8", font=("Arial", 12)).pack(pady=10)
+    tk.Entry(ventana_mensajes, textvariable=mensaje_var, width=40).pack(pady=5)
+
+    # Botones para la funcionalidad de claves y firmas digitales
+    tk.Button(ventana_mensajes, text="Generar Claves", command=generar_claves_gui, bg="#007bff", fg="white", width=20).pack(pady=10)
+    tk.Button(ventana_mensajes, text="Firmar Archivo", command=firmar_archivo_gui, bg="#007bff", fg="white", width=20).pack(pady=10)
+    tk.Button(ventana_mensajes, text="Verificar Firma", command=verificar_firma_gui, bg="#007bff", fg="white", width=20).pack(pady=10)
+
+    # Botón para cerrar la ventana
+    tk.Button(ventana_mensajes, text="Salir", command=ventana_mensajes.destroy, bg="yellow", fg="black", width=20).pack(pady=(20, 0))
 
 
 # Elementos de la interfaz para registro, autenticación y eliminación de usuarios

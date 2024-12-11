@@ -1,83 +1,54 @@
-import logging
-import re
-import sqlite3
-import tkinter as tk
-from tkinter import messagebox, Toplevel
+import logging  # esta libreria es para el log
+import re  # esta libreria es para la validacion de usuario y contraseña
+import sqlite3  # esta libreria es para la base de datos
+import tkinter as tk  # esta libreria es para la interfaz gráfica
+from tkinter import messagebox, Toplevel  # messagebox es para mostrar mensajes, Toplevel es para crear ventanas secundarias
 
 from autenticacion_mensajes import almacenar_mensaje, verificar_mensaje
 from cifrado_simetrico import almacenar_datos_cifrados, descifrar_datos
-from firma_digital.generar_verificar_firma_digital import generar_claves, generar_firma, verificar_firma  # Eval 2
+from firma_digital.generar_verificar_firma_digital import generar_claves, generar_firma, verificar_firma  # (Eval 2)
 from usuario_autenticacion import registrar_usuario, autenticar_usuario
 
-# Configuración de logging
+# Configuración de logging para el log
 logging.basicConfig(filename="cryptography.log", level=logging.INFO,
-                    format="%(asctime)s - %(levelname)s - %(message)s")
+                    format="%(asctime)s - %(levelname)s - %(message)s")  # asctime es la fecha y hora del log en formato RFC 2822
 
 
 # Validación de usuario y contraseña
-def validar_datos_usuario(usuario, contrasena):
+def validar_datos_usuario(usuario, contrasena):  # esta funcion es para validar el usuario y la contrasena
+
+    # este if es para que el usuario solo contenga letras y numeros
     if not re.match("^[A-Za-z0-9]+$", usuario):
         raise ValueError("El nombre de usuario debe contener solo letras y números.")
+
+    # esta validacion es para que la contrasena tenga al menos 8 caracteres y contener letras y numeros
     if len(contrasena) < 8 or not re.search("[A-Za-z]", contrasena) or not re.search("[0-9]", contrasena):
         raise ValueError("La contraseña debe tener al menos 8 caracteres y contener letras y números.")
 
 
 # Ruta de la base de datos
-DB_PATH = "hospital.db"
+DB_PATH = "hospital.db"  # esta es la ruta de la base de datos
 
 # Configuración de la ventana principal de la aplicación
 root = tk.Tk()
 root.title("Sistema de Seguridad del Hospital - Inicio de Sesión")
-root.geometry("400x400")
-root.configure(bg="#f0f4f8")
+root.geometry("400x400")  # esta es la dimension de la ventana
+root.configure(bg="grey")  # esta es la color de fondo, el color es gris
 
 # Variables para almacenar entradas de usuario
-usuario_var = tk.StringVar()
-contrasena_var = tk.StringVar()
-mensaje_var = tk.StringVar()
-mensaje_id_var = tk.StringVar()
+usuario_var = tk.StringVar()  # esta es la variable para el usuario
+contrasena_var = tk.StringVar()  # esta es la variable para la contraseña
+mensaje_var = tk.StringVar()  # esta es la variable para el mensaje
+mensaje_id_var = tk.StringVar()  # esta es la variable para el id del mensaje
 
 # Título principal de la interfaz gráfica
-titulo_label = tk.Label(root, text="Hospital Gregorio Marañón \n Sec Hosp", font=("Arial", 16, "bold"), bg="#f0f4f8", fg="#333")
-titulo_label.pack(pady=(10, 20))
+# root es la ventana principal, text es el texto, font es la fuente, bg es el color de fondo, fg es el color del texto
+# pack es para colocar el widget en la ventana
+# pady es el espacio vertical entre el texto y los widgets de la ventana
+tk.Label(root, text="Hospital Gregorio Marañón \n Sec Hosp", font=("Arial", 16, "bold"), bg="grey", fg="#333").pack(pady=(10, 20))
 
 
-# Definición de la función para abrir la ventana de mensajes
-def abrir_ventana_mensajes():
-    ventana_mensajes = Toplevel(root)
-    ventana_mensajes.title("Sistema de Seguridad del Hospital - Cifrado de Mensajes")
-    ventana_mensajes.geometry("400x600")
-    ventana_mensajes.configure(bg="#f0f4f8")
-
-    # Campo y botón para cifrar y autenticar mensajes
-    tk.Label(ventana_mensajes, text="Mensaje para cifrar/autenticar", bg="#f0f4f8", font=("Arial", 12)).pack(pady=10)
-    tk.Entry(ventana_mensajes, textvariable=mensaje_var, width=40).pack(pady=5)
-
-    tk.Button(ventana_mensajes, text="Cifrar Mensaje", command=cifrar_mensaje, bg="#007bff", fg="white", width=20).pack(pady=10)
-
-    # Campo y botones para gestionar mensajes por ID (descifrar, autenticar, verificar)
-    tk.Label(ventana_mensajes, text="ID del mensaje para descifrar/verificar", bg="#f0f4f8", font=("Arial", 12)).pack(pady=10)
-    tk.Entry(ventana_mensajes, textvariable=mensaje_id_var, width=40).pack(pady=5)
-
-    tk.Button(ventana_mensajes, text="Descifrar Mensaje", command=descifrar_mensaje, bg="#007bff", fg="white", width=20).pack(pady=5)
-    tk.Button(ventana_mensajes, text="Autenticar Mensaje (HMAC)", command=autenticar_mensaje, bg="#007bff", fg="white", width=20).pack(
-        pady=5)
-    tk.Button(ventana_mensajes, text="Verificar Autenticidad", command=verificar_autenticidad, bg="#007bff", fg="white", width=20).pack(
-        pady=5)
-
-    # Botones de limpieza de la base de datos en la ventana de mensajes
-    tk.Label(ventana_mensajes, text="", bg="#f0f4f8").pack()
-    tk.Button(ventana_mensajes, text="Limpiar Usuarios", command=limpiar_usuarios, bg="red", fg="white", width=20).pack(pady=(20, 5))
-    tk.Button(ventana_mensajes, text="Limpiar Mensajes Cifrados", command=limpiar_mensajes_cifrados, bg="red", fg="white", width=20).pack(
-        pady=5)
-    tk.Button(ventana_mensajes, text="Limpiar Mensajes Autenticados", command=limpiar_mensajes_autenticados, bg="red", fg="white",
-              width=20).pack(pady=5)
-
-    # Botón de salida para cerrar la ventana de mensajes
-    tk.Button(ventana_mensajes, text="Salir", command=ventana_mensajes.destroy, bg="yellow", fg="black", width=20).pack(pady=(20, 0))
-
-
-# Función para registrar usuarios en la base de datos
+# Función para registrar usuarios
 def registrar():
     usuario = usuario_var.get()
     contrasena = contrasena_var.get()
@@ -127,68 +98,72 @@ def borrar_usuario():
         logging.warning(f"Intento fallido de eliminación de usuario '{usuario}' por autenticación fallida.")
 
 
-# Funciones de cifrado y autenticación de mensajes
+# Función para abrir la ventana de gestión de mensajes y firmas
+def abrir_ventana_mensajes():
+    ventana_mensajes = Toplevel(root)  # Toplevel es para crear una ventana secundaria
+    ventana_mensajes.title("Sistema de Seguridad del Hospital")  # esto es el titulo de la ventana
+    ventana_mensajes.geometry("400x600")  # esta es la dimension de la ventana
+    ventana_mensajes.configure(bg="grey")  # esta es el color de fondo gris
+
+    campos = [
+        ("Usuario", usuario_var),
+        ("Mensaje o Archivo", mensaje_var)
+    ]
+
+    for texto, variable in campos:
+        tk.Label(ventana_mensajes, text=texto, bg="grey", font=("Arial", 12)).pack(pady=5)
+        tk.Entry(ventana_mensajes, textvariable=variable, width=40).pack(pady=5)
+
+    botones = [
+        ("Cifrar Mensaje", cifrar_mensaje),
+        ("Descifrar Mensaje", descifrar_mensaje),
+        ("Autenticar Mensaje", autenticar_mensaje),
+        ("Verificar Autenticidad", verificar_autenticidad),
+        ("Generar Claves", generar_claves_gui),
+        ("Firmar Archivo", firmar_archivo_gui),
+        ("Verificar Firma", verificar_firma_gui),
+        ("Salir", ventana_mensajes.destroy, "yellow", "black")
+    ]
+
+    for texto, comando, *color in botones:
+        bg = color[0] if color else "#007bff"
+        fg = color[1] if len(color) > 1 else "white"
+        tk.Button(ventana_mensajes, text=texto, command=comando, bg=bg, fg=fg, width=20).pack(pady=5)
+
+
+# Funciones auxiliares para cifrado y firmas
 def cifrar_mensaje():
-    mensaje = mensaje_var.get()
     try:
-        almacenar_datos_cifrados(mensaje)
+        almacenar_datos_cifrados(mensaje_var.get())
         messagebox.showinfo("Cifrado", "Mensaje cifrado y almacenado correctamente.")
-        logging.info("Mensaje cifrado y almacenado correctamente.")
     except Exception as e:
-        messagebox.showerror("Error", str(e))
-        logging.error(f"Error al cifrar mensaje: {e}")
+        mostrar_error("Error al cifrar mensaje", e)
 
 
 def descifrar_mensaje():
-    mensaje_id = mensaje_id_var.get()
     try:
-        mensaje = descifrar_datos(int(mensaje_id))
+        mensaje = descifrar_datos(int(mensaje_id_var.get()))
         messagebox.showinfo("Descifrado", f"Mensaje descifrado: {mensaje}")
-        logging.info(f"Mensaje con ID '{mensaje_id}' descifrado exitosamente.")
     except Exception as e:
-        messagebox.showerror("Error", str(e))
-        logging.error(f"Error al descifrar mensaje con ID '{mensaje_id}': {e}")
+        mostrar_error("Error al descifrar mensaje", e)
 
 
 def autenticar_mensaje():
-    mensaje = mensaje_var.get()
     try:
-        almacenar_mensaje(mensaje)
-        messagebox.showinfo("HMAC", "Mensaje autenticado y almacenado correctamente.")
-        logging.info("Mensaje autenticado con HMAC y almacenado correctamente.")
+        almacenar_mensaje(mensaje_var.get())
+        messagebox.showinfo("Autenticación", "Mensaje autenticado correctamente.")
     except Exception as e:
-        messagebox.showerror("Error", str(e))
-        logging.error(f"Error al autenticar mensaje con HMAC: {e}")
+        mostrar_error("Error al autenticar mensaje", e)
 
 
 def verificar_autenticidad():
-    mensaje_id = mensaje_id_var.get()
-    mensaje = mensaje_var.get()
     try:
-        if verificar_mensaje(int(mensaje_id), mensaje):
-            messagebox.showinfo("Verificación", "El mensaje es auténtico.")
-            logging.info(f"Mensaje con ID '{mensaje_id}' verificado como auténtico.")
+        if verificar_mensaje(int(mensaje_id_var.get()), mensaje_var.get()):
+            messagebox.showinfo("Verificación", "El mensaje es aut\u00e9ntico.")
         else:
-            messagebox.showwarning("Verificación", "El mensaje no es auténtico.")
-            logging.warning(f"Mensaje con ID '{mensaje_id}' no es auténtico.")
+            messagebox.showwarning("Verificación", "El mensaje no es aut\u00e9ntico.")
     except Exception as e:
-        messagebox.showerror("Error", str(e))
-        logging.error(f"Error al verificar autenticidad del mensaje con ID '{mensaje_id}': {e}")
-
-
-# Elementos de la interfaz para registro, autenticación y eliminación de usuarios
-tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)
-tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)
-
-tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)
-tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)
-
-tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)
-tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)
-tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=(10, 20))
-
-# Botón de "Salir" en la ventana principal
-tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack()
+        mostrar_error("Error al verificar autenticidad", e)
 
 
 # Funciones para limpiar tablas específicas en la base de datos
@@ -222,107 +197,48 @@ def limpiar_mensajes_autenticados():
     logging.info("Todos los mensajes autenticados han sido eliminados de la base de datos.")
 
 
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
-
-# Funciones del  Eval 2
-# esta funcion genera las claves
-def generar_claves_gui():
-    """Función para generar claves desde la GUI."""
-    usuario = usuario_var.get()
+def generar_claves_gui():  # (Eval 2)
     try:
-        generar_claves(usuario)
-        messagebox.showinfo("Claves", f"Claves generadas para el usuario: {usuario}")
-        logging.info(f"Claves generadas para el usuario: {usuario}")
-    except Exception as e:
-        messagebox.showerror("Error", str(e))
-        logging.error(f"Error al generar claves para el usuario '{usuario}': {e}")
+        generar_claves(usuario_var.get())  # Genera las claves en la carpeta del usuario correspondiente
+        messagebox.showinfo("Claves", "Claves generadas correctamente.")
+    except Exception as e:  # Si ocurre un error al generar las claves se imprime un mensaje de error
+        mostrar_error("Error al generar claves", e)
 
 
-# esta funcion genera la firma
-def firmar_archivo_gui():
-    """Función para firmar un archivo desde la GUI."""
-    usuario = usuario_var.get()
-    archivo = mensaje_var.get()  # Reutilizamos el campo de mensaje para la ruta del archivo
+def firmar_archivo_gui():  # (Eval 2)
     try:
-        generar_firma(usuario, archivo)
-        messagebox.showinfo("Firma", f"Firma generada para el archivo: {archivo}")
-        logging.info(f"Firma generada para el archivo: {archivo}")
-    except Exception as e:
-        messagebox.showerror("Error", str(e))
-        logging.error(f"Error al firmar el archivo '{archivo}': {e}")
+        generar_firma(usuario_var.get(), mensaje_var.get())  # Genera la firma del archivo en la carpeta del usuario correspondiente
+        messagebox.showinfo("Firma", "Archivo firmado correctamente.")
+    except Exception as e:  # Si ocurre un error al firmar el archivo se imprime un mensaje de error
+        mostrar_error("Error al firmar archivo", e)
 
 
-# esta funcion verifica la firma
-def verificar_firma_gui():
-    """Función para verificar la firma de un archivo desde la GUI."""
-    usuario = usuario_var.get()
-    archivo = mensaje_var.get()  # Reutilizamos el campo de mensaje para la ruta del archivo
+def verificar_firma_gui():  # (Eval 2)
     try:
-        resultado = verificar_firma(usuario, archivo)
-        if resultado:
-            messagebox.showinfo("Verificación", f"Firma válida para el archivo: {archivo}")
-            logging.info(f"Firma válida para el archivo: {archivo}")
+        if verificar_firma(usuario_var.get(), mensaje_var.get()):  # Verifica la firma del archivo en la carpeta del usuario correspondiente
+            messagebox.showinfo("Verificación", "Firma válida.")
         else:
-            messagebox.showwarning("Verificación", f"Firma inválida para el archivo: {archivo}")
-            logging.warning(f"Firma inválida para el archivo: {archivo}")
+            messagebox.showwarning("Verificación", "Firma inválida.")  # Si la firma es inválida se imprime un mensaje de advertencia
     except Exception as e:
-        messagebox.showerror("Error", str(e))
-        logging.error(f"Error al verificar la firma del archivo '{archivo}': {e}")
+        mostrar_error("Error al verificar firma", e)
 
 
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
-##########################################
+def mostrar_error(titulo, error):
+    messagebox.showerror(titulo, str(error))
+    logging.error(f"{titulo}: {error}")
 
 
-# Modificar la ventana de mensajes para incluir estas nuevas funcionalidades
-def abrir_ventana_mensajes():
-    ventana_mensajes = Toplevel(root)
-    ventana_mensajes.title("Sistema de Seguridad del Hospital - Gestión de Firmas Digitales")
-    ventana_mensajes.geometry("400x600")
-    ventana_mensajes.configure(bg="#f0f4f8")
+# Elementos de la interfaz para registro y autenticación
+tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)  # Label es un widget que muestra un texto en la interfaz, en este caso el usuario
+tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)  # Entry es un widget que permite ingresar texto, en este caso el usuario en la interfaz
 
-    # Campo para seleccionar archivo y usuario
-    tk.Label(ventana_mensajes, text="Usuario", bg="#f0f4f8", font=("Arial", 12)).pack(pady=10)
-    tk.Entry(ventana_mensajes, textvariable=usuario_var, width=40).pack(pady=5)
+tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)  # Label es un widget que muestra un texto en la interfaz, en este caso la contraseña
+tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)  # Entry es un widget que permite ingresar texto, en este caso la contraseña en la interfaz
 
-    tk.Label(ventana_mensajes, text="Ruta del archivo", bg="#f0f4f8", font=("Arial", 12)).pack(pady=10)
-    tk.Entry(ventana_mensajes, textvariable=mensaje_var, width=40).pack(pady=5)
+tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso registrarcon color azul
+tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso autenticar con color verde
+tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso borrar usuario con color rojo
+tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack(pady=(10, 20))  # Button es un widget que permite crear botones en la interfaz, en este caso salir con color amarillo
 
-    # Botones para la funcionalidad de claves y firmas digitales
-    tk.Button(ventana_mensajes, text="Generar Claves", command=generar_claves_gui, bg="#007bff", fg="white", width=20).pack(pady=10)
-    tk.Button(ventana_mensajes, text="Firmar Archivo", command=firmar_archivo_gui, bg="#007bff", fg="white", width=20).pack(pady=10)
-    tk.Button(ventana_mensajes, text="Verificar Firma", command=verificar_firma_gui, bg="#007bff", fg="white", width=20).pack(pady=10)
-
-    # Botón para cerrar la ventana
-    tk.Button(ventana_mensajes, text="Salir", command=ventana_mensajes.destroy, bg="yellow", fg="black", width=20).pack(pady=(20, 0))
-
-
-# Elementos de la interfaz para registro, autenticación y eliminación de usuarios
-tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)
-tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)
-
-tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)
-tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)
-
-tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)
-tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)
-tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=(10, 20))
-
-# Botón de "Salir" en la ventana principal
-tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack()
-
-# Iniciar la aplicación
+# Iniciar la aplicacion
 root.mainloop()
