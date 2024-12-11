@@ -175,89 +175,69 @@ def verificar_autenticidad():
         logging.error(f"Error al verificar autenticidad del mensaje con ID '{mensaje_id}': {e}")
 
 
-###Eval 2
-def firmar():
-    usuario = usuario_var.get()
-    mensaje = mensaje_var.get()
-    try:
-        firmar_mensaje(usuario, mensaje)
-        messagebox.showinfo("Firma", "Mensaje firmado correctamente.")
-    except Exception as e:
-        messagebox.showerror("Error", str(e))
+# Elementos de la interfaz para registro, autenticación y eliminación de usuarios
+tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)
+tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)
 
-def verificar():
-    usuario = usuario_var.get()
-    mensaje = mensaje_var.get()
-    firma = firma_var.get()
-    try:
-        if verificar_firma(usuario, mensaje, firma):
-            messagebox.showinfo("Verificación", "Firma válida.")
-        else:
-            messagebox.showwarning("Verificación", "Firma no válida.")
-    except Exception as e:
-        messagebox.showerror("Error", str(e))
+tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)
+tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)
+
+tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)
+tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)
+tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=(10, 20))
+
+# Botón de "Salir" en la ventana principal
+tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack()
 
 
-if __name__ == '__main__':
-    # Elementos de la interfaz para registro, autenticación y eliminación de usuarios
-    tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)
-    tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)
-
-    tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)
-    tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)
-
-    tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)
-    tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)
-    tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=(10, 20))
-
-    # Botón de "Salir" en la ventana principal
-    tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack()
+# Funciones para limpiar tablas específicas en la base de datos
+def limpiar_usuarios():
+    conexion = sqlite3.connect(DB_PATH)
+    cursor = conexion.cursor()
+    cursor.execute("DELETE FROM usuarios")
+    conexion.commit()
+    conexion.close()
+    messagebox.showinfo("Limpiar Usuarios", "Todos los usuarios han sido eliminados.")
+    logging.info("Todos los usuarios han sido eliminados de la base de datos.")
 
 
-    # Funciones para limpiar tablas específicas en la base de datos
-    def limpiar_usuarios():
-        conexion = sqlite3.connect(DB_PATH)
-        cursor = conexion.cursor()
-        cursor.execute("DELETE FROM usuarios")
-        conexion.commit()
-        conexion.close()
-        messagebox.showinfo("Limpiar Usuarios", "Todos los usuarios han sido eliminados.")
-        logging.info("Todos los usuarios han sido eliminados de la base de datos.")
+def limpiar_mensajes_cifrados():
+    conexion = sqlite3.connect(DB_PATH)
+    cursor = conexion.cursor()
+    cursor.execute("DELETE FROM datos_protegidos")
+    conexion.commit()
+    conexion.close()
+    messagebox.showinfo("Limpiar Mensajes Cifrados", "Todos los mensajes cifrados han sido eliminados.")
+    logging.info("Todos los mensajes cifrados han sido eliminados de la base de datos.")
 
 
-    def limpiar_mensajes_cifrados():
-        conexion = sqlite3.connect(DB_PATH)
-        cursor = conexion.cursor()
-        cursor.execute("DELETE FROM datos_protegidos")
-        conexion.commit()
-        conexion.close()
-        messagebox.showinfo("Limpiar Mensajes Cifrados", "Todos los mensajes cifrados han sido eliminados.")
-        logging.info("Todos los mensajes cifrados han sido eliminados de la base de datos.")
+def limpiar_mensajes_autenticados():
+    conexion = sqlite3.connect(DB_PATH)
+    cursor = conexion.cursor()
+    cursor.execute("DELETE FROM mensajes_autenticados")
+    conexion.commit()
+    conexion.close()
+    messagebox.showinfo("Limpiar Mensajes Autenticados", "Todos los mensajes autenticados han sido eliminados.")
+    logging.info("Todos los mensajes autenticados han sido eliminados de la base de datos.")
+
+# Funciones
 
 
-    def limpiar_mensajes_autenticados():
-        conexion = sqlite3.connect(DB_PATH)
-        cursor = conexion.cursor()
-        cursor.execute("DELETE FROM mensajes_autenticados")
-        conexion.commit()
-        conexion.close()
-        messagebox.showinfo("Limpiar Mensajes Autenticados", "Todos los mensajes autenticados han sido eliminados.")
-        logging.info("Todos los mensajes autenticados han sido eliminados de la base de datos.")
 
 
-    # Elementos de la interfaz para registro, autenticación y eliminación de usuarios
-    tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)
-    tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)
+# Elementos de la interfaz para registro, autenticación y eliminación de usuarios
+tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)
+tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)
 
-    tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)
-    tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)
+tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)
+tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)
 
-    tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)
-    tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)
-    tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=(10, 20))
+tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)
+tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)
+tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=(10, 20))
 
-    # Botón de "Salir" en la ventana principal
-    tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack()
+# Botón de "Salir" en la ventana principal
+tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack()
 
-    # Iniciar la aplicación
-    root.mainloop()
+# Iniciar la aplicación
+root.mainloop()

@@ -1,0 +1,7 @@
+2024-12-11 03:21:40,882 - Usuario 'pablito' autenticado exitosamente.
+2024-12-11 03:22:30,481 - Claves generadas para el usuario: pablito
+2024-12-11 03:22:39,464 - Error al firmar el archivo '': [Errno 2] No such file or directory: ''
+2024-12-11 03:22:48,397 - Error al firmar el archivo 'documento.txt': [Errno 2] No such file or directory: 'documento.txt'
+2024-12-11 03:23:03,672 - Error al verificar la firma del archivo 'documento.txt': [Errno 2] No such file or directory: 'documento.txt'
+2024-12-11 03:26:55,170 - Firma generada para el archivo: firma_digital/documento.txt
+2024-12-11 03:26:57,229 - Firma válida para el archivo: firma_digital/documento.txt
