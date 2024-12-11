@@ -1,0 +1,40 @@
+import subprocess
+
+def generate_keys():
+    """Genera claves privada y pública RSA."""
+    subprocess.run(["openssl", "genrsa", "-out", "private.pem", "2048"])
+    subprocess.run(["openssl", "rsa", "-in", "private.pem", "-pubout", "-out", "public.pem"])
+    print("Claves generadas: private.pem y public.pem")
+
+def sign_file(file_path):
+    """Firma un archivo usando la clave privada."""
+    output_signature = file_path + ".sig"
+    subprocess.run(["openssl", "dgst", "-sha256", "-sign", "private.pem", "-out", output_signature, file_path])
+    print(f"Archivo firmado. Firma guardada en {output_signature}")
+
+def verify_signature(file_path):
+    """Verifica la firma de un archivo."""
+    signature = file_path + ".sig"
+    result = subprocess.run(["openssl", "dgst", "-sha256", "-verify", "public.pem", "-signature", signature, file_path],
+                            capture_output=True, text=True)
+    if "Verified OK" in result.stdout:
+        print("Firma verificada correctamente.")
+    else:
+        print("Error en la verificación de la firma.")
+        print(result.stdout)
+
+# Uso
+if __name__ == "__main__":
+    # Generar claves (solo la primera vez)
+    generate_keys()
+
+    # Archivo a firmar
+    archivo = "file.txt"
+    with open(archivo, "w") as f:
+        f.write("Este es un archivo para firmar.")
+
+    # Firmar el archivo
+    sign_file(archivo)
+
+    # Verificar la firma
+    verify_signature(archivo)
