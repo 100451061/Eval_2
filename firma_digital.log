@@ -5,3 +5,5 @@
 2024-12-11 03:23:03,672 - Error al verificar la firma del archivo 'documento.txt': [Errno 2] No such file or directory: 'documento.txt'
 2024-12-11 03:26:55,170 - Firma generada para el archivo: firma_digital/documento.txt
 2024-12-11 03:26:57,229 - Firma válida para el archivo: firma_digital/documento.txt
+2024-12-11 06:39:36,244 - Usuario 'pablito' autenticado exitosamente.
+2024-12-11 06:39:49,923 - Error al firmar archivo: [Errno 2] No such file or directory: 'documentos.txt'

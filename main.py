@@ -6,7 +6,7 @@ from tkinter import messagebox, Toplevel  # messagebox es para mostrar mensajes,
 
 from autenticacion_mensajes import almacenar_mensaje, verificar_mensaje
 from cifrado_simetrico import almacenar_datos_cifrados, descifrar_datos
-from firma_digital.generar_verificar_firma_digital import generar_claves, generar_firma, verificar_firma  # (Eval 2)
+from generar_verificar_firma_digital import generar_claves, generar_firma, verificar_firma  # (Eval 2)
 from usuario_autenticacion import registrar_usuario, autenticar_usuario
 
 # Configuración de logging para el log
@@ -238,16 +238,24 @@ def mostrar_error(titulo, error):
 
 
 # Elementos de la interfaz para registro y autenticación
-tk.Label(root, text="Usuario", font=("Arial", 12)).pack(pady=5)  # Label es un widget que muestra un texto en la interfaz, en este caso el usuario
-tk.Entry(root, textvariable=usuario_var, width=40).pack(pady=5)  # Entry es un widget que permite ingresar texto, en este caso el usuario en la interfaz
+tk.Label(root, text="Usuario", font=("Arial", 12)).pack(
+    pady=5)  # Label es un widget que muestra un texto en la interfaz, en este caso el usuario
+tk.Entry(root, textvariable=usuario_var, width=40).pack(
+    pady=5)  # Entry es un widget que permite ingresar texto, en este caso el usuario en la interfaz
 
-tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(pady=5)  # Label es un widget que muestra un texto en la interfaz, en este caso la contraseña
-tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(pady=5)  # Entry es un widget que permite ingresar texto, en este caso la contraseña en la interfaz
+tk.Label(root, text="Contraseña", font=("Arial", 12)).pack(
+    pady=5)  # Label es un widget que muestra un texto en la interfaz, en este caso la contraseña
+tk.Entry(root, textvariable=contrasena_var, show="*", width=40).pack(
+    pady=5)  # Entry es un widget que permite ingresar texto, en este caso la contraseña en la interfaz
 
-tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso registrarcon color azul
-tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso autenticar con color verde
-tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso borrar usuario con color rojo
-tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack(pady=(10, 20))  # Button es un widget que permite crear botones en la interfaz, en este caso salir con color amarillo
+tk.Button(root, text="Registrar", command=registrar, bg="blue", fg="white", width=20).pack(
+    pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso registrarcon color azul
+tk.Button(root, text="Autenticar", command=autenticar, bg="green", fg="white", width=20).pack(
+    pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso autenticar con color verde
+tk.Button(root, text="Borrar Usuario", command=borrar_usuario, bg="red", fg="white", width=20).pack(
+    pady=5)  # Button es un widget que permite crear botones en la interfaz, en este caso borrar usuario con color rojo
+tk.Button(root, text="Salir", command=root.quit, bg="yellow", fg="black", width=20).pack(
+    pady=(10, 20))  # Button es un widget que permite crear botones en la interfaz, en este caso salir con color amarillo
 
 # Iniciar la aplicacion
 root.mainloop()

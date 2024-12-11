@@ -33,7 +33,7 @@ DB_PATH = "hospital.db"  # esta es la ruta de la base de datos
 root = tk.Tk()
 root.title("Sistema de Seguridad del Hospital - Inicio de Sesión")
 root.geometry("400x400")  # esta es la dimension de la ventana
-root.configure(bg="grey")  # esta es la color de fondo, el color es gris
+root.configure(bg="lightgrey")  # esta es la color de fondo, el color es gris clarito
 
 # Variables para almacenar entradas de usuario
 usuario_var = tk.StringVar()  # esta es la variable para el usuario
@@ -45,7 +45,7 @@ mensaje_id_var = tk.StringVar()  # esta es la variable para el id del mensaje
 # root es la ventana principal, text es el texto, font es la fuente, bg es el color de fondo, fg es el color del texto
 # pack es para colocar el widget en la ventana
 # pady es el espacio vertical entre el texto y los widgets de la ventana
-tk.Label(root, text="Hospital Gregorio Marañón \n Sec Hosp", font=("Arial", 16, "bold"), bg="grey", fg="#333").pack(pady=(10, 20))
+tk.Label(root, text="Hospital Gregorio Marañón \n Sec Hosp", font=("Arial", 16, "bold"), bg="lightgrey", fg="#333").pack(pady=(10, 20))
 
 
 # Función para registrar usuarios
@@ -103,7 +103,7 @@ def abrir_ventana_mensajes():
     ventana_mensajes = Toplevel(root)  # Toplevel es para crear una ventana secundaria
     ventana_mensajes.title("Sistema de Seguridad del Hospital")  # esto es el titulo de la ventana
     ventana_mensajes.geometry("400x600")  # esta es la dimension de la ventana
-    ventana_mensajes.configure(bg="grey")  # esta es el color de fondo gris
+    ventana_mensajes.configure(bg="lightgrey")  # esta es el color de fondo gris
 
     campos = [
         ("Usuario", usuario_var),
@@ -111,23 +111,32 @@ def abrir_ventana_mensajes():
     ]
 
     for texto, variable in campos:
-        tk.Label(ventana_mensajes, text=texto, bg="grey", font=("Arial", 12)).pack(pady=5)
+        tk.Label(ventana_mensajes, text=texto, bg="lightgrey", font=("Arial", 12)).pack(pady=5)
         tk.Entry(ventana_mensajes, textvariable=variable, width=40).pack(pady=5)
 
     botones = [
-        ("Cifrar Mensaje", cifrar_mensaje),
-        ("Descifrar Mensaje", descifrar_mensaje),
-        ("Autenticar Mensaje", autenticar_mensaje),
-        ("Verificar Autenticidad", verificar_autenticidad),
-        ("Generar Claves", generar_claves_gui),
-        ("Firmar Archivo", firmar_archivo_gui),
-        ("Verificar Firma", verificar_firma_gui),
+        # Botones azules
+        ("Cifrar Mensaje", cifrar_mensaje, "#007bff"),
+        ("Descifrar Mensaje", descifrar_mensaje, "#007bff"),
+        ("Autenticar Mensaje", autenticar_mensaje, "#007bff"),
+        ("Verificar Autenticidad (HMAC)", verificar_autenticidad, "#007bff"),
+
+        # Botones rosas
+        ("Generar Claves", generar_claves_gui, "#ff69b4"),
+        ("Firmar Archivo", firmar_archivo_gui, "#ff69b4"),
+        ("Verificar Firma", verificar_firma_gui, "#ff69b4"),
+
+        # Botones rojos
+        ("Limpiar Usuarios", limpiar_usuarios, "red"),
+        ("Limpiar Mensajes Cifrados", limpiar_mensajes_cifrados, "red"),
+        ("Limpiar Mensajes Autenticados", limpiar_mensajes_autenticados, "red"),
+
+        # Botón amarillo para salir
         ("Salir", ventana_mensajes.destroy, "yellow", "black")
     ]
 
-    for texto, comando, *color in botones:
-        bg = color[0] if color else "#007bff"
-        fg = color[1] if len(color) > 1 else "white"
+    for texto, comando, bg, *fg in botones:  # Reorganizamos la tupla para incluir colores específicos
+        fg = fg[0] if fg else "white"  # Si no hay un color de texto definido, usa blanco
         tk.Button(ventana_mensajes, text=texto, command=comando, bg=bg, fg=fg, width=20).pack(pady=5)
 
 
