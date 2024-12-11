@@ -100,19 +100,17 @@ def verificar_firma(usuario_id, archivo):
 # Hecho con https://docs.python.org/3/howto/logging.html
 logging.basicConfig(filename="firma_digital.log",  # Ruta del archivo de log
                     level=logging.INFO,  # Nivel de log
-                    format="%(asctime)s - %(message)s"  # Formato del log (fecha y mensaje)
-                    # asctime es la fecha y hora del log en formato RFC 2822
-                    # message es el mensaje del log
+                    format="%(asctime)s - %(message)s"  # Formato del log
                     )
 
 
-# Función para registrar un mensaje en el log
 def registrar_log(mensaje):
+    """Registra un mensaje en el log."""
     logging.info(mensaje)
 
 
 if __name__ == '__main__':
-    generar_claves("usuario123")  # Genera las claves
-    generar_firma("usuario123", "documento.txt")  # Genera la firma
-    resultado = verificar_firma("usuario123", "documento.txt")  # Verifica la firma
-    registrar_log(f"Verificación de firma para documento.txt: {'Válida' if resultado else 'Inválida'}")  # Registra el resultado
+    generar_claves("usuario123")
+    generar_firma("usuario123", "documento.txt")
+    resultado = verificar_firma("usuario123", "documento.txt")
+    registrar_log(f"Verificación de firma para documento.txt: {'Válida' if resultado else 'Inválida'}")
