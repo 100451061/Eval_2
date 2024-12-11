@@ -1,6 +1,9 @@
+import logging
 import os
 
+from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 
@@ -33,10 +36,6 @@ def generar_claves(usuario_id):
         public_file.write(public_pem)
 
     print(f"Claves generadas para el usuario: {usuario_id}")
-
-
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import padding
 
 
 def generar_firma(usuario_id, archivo):
@@ -93,8 +92,6 @@ def verificar_firma(usuario_id, archivo):
         return False
 
 
-import logging
-
 # Configuración del log
 logging.basicConfig(filename="firma_digital.log", level=logging.INFO, format="%(asctime)s - %(message)s")
 
@@ -105,4 +102,7 @@ def registrar_log(mensaje):
 
 
 if __name__ == '__main__':
-    ...
+    generar_claves("usuario123")
+    generar_firma("usuario123", "documento.txt")
+    resultado = verificar_firma("usuario123", "documento.txt")
+    registrar_log(f"Verificación de firma para documento.txt: {'Válida' if resultado else 'Inválida'}")
