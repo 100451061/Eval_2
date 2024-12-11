@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 
 
-# Hecho con https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/
+
 def generar_claves(usuario_id):
     """Genera y guarda claves RSA para un usuario."""
     private_key = rsa.generate_private_key(  # Genera la clave privada
@@ -39,7 +39,7 @@ def generar_claves(usuario_id):
     print(f"Claves generadas para el usuario: {usuario_id}")
 
 
-# Key loading; Hecho con https://cryptography.io/en/latest/hazmat/primitives/asymmetric/
+
 def generar_firma(usuario_id, archivo):
     """Genera una firma digital para un archivo usando la clave privada."""
     with open(f"keys/{usuario_id}/private_key.pem", "rb") as key_file:  # Carga la clave privada
@@ -66,7 +66,7 @@ def generar_firma(usuario_id, archivo):
     print(f"Firma generada para el archivo: {archivo}")
 
 
-# Verification; Hecho con https://cryptography.io/en/latest/hazmat/primitives/asymmetric/
+
 def verificar_firma(usuario_id, archivo):
     """Verifica la firma de un archivo con la clave pública del usuario"""
     with open(f"keys/{usuario_id}/public_key.pem", "rb") as key_file:  # Carga la clave publica
@@ -97,7 +97,6 @@ def verificar_firma(usuario_id, archivo):
 
 
 # Configuración del log, con libreria logging
-# Hecho con https://docs.python.org/3/howto/logging.html
 logging.basicConfig(filename="firma_digital.log",  # Ruta del archivo de log
                     level=logging.INFO,  # Nivel de log
                     format="%(asctime)s - %(message)s"  # Formato del log (fecha y mensaje)
